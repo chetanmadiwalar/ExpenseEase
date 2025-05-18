@@ -16,7 +16,7 @@ db();
 // Middlewares
 app.use(express.json());
 app.use(cors({
-  origin: ["https://chetanexpenseease.netlify.app", "http://localhost:3000"]
+  origin: ["https://chetanexpenseease.netlify.app/", "http://localhost:3000"]
 }));
 
 // Routes
@@ -25,7 +25,9 @@ readdirSync(routesDir).forEach((route) => {
   app.use('/api/v1', require(path.join(routesDir, route)));
 });
 app.use('/api/auth', authRoutes);
-
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 5000}`);
+});
 app.get('/', (req, res) => {
   res.send({
     activeStatus: true,
