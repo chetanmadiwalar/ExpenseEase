@@ -26,4 +26,9 @@ const server = () => {
     })
 }
 
+module.exports = (req, res) => {
+  res.status(200).json({ message: "Hello from serverless!" });
+};
+
+
 server()
