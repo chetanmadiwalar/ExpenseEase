@@ -1,34 +1,34 @@
-// api/app.js
-
-const serverless = require('serverless-http');
-const express = require('express');
+const express = require('express')
 const cors = require('cors');
-const { readdirSync } = require('fs');
-const path = require('path');
-require('dotenv').config();
-
 const authRoutes = require('./routes/auth');
 const { db } = require('./db/db');
+const {readdirSync} = require('fs')
+const app = express()
 
-const app = express();
+require('dotenv').config()
 
-// Connect to DB
-db();
+const PORT = process.env.PORT
 
-// Middlewares
-app.use(express.json());
-app.use(
-  cors({
-    origin: ["https://chetanexpenseease.netlify.app", "http://localhost:3000"],
-  })
-);
+//middlewares
+app.use(express.json())
+app.use(cors({
+    origin:["https://chetanexpenseease.netlify.app","http://localhost:3000"]
+}))
 
-// API routes
-readdirSync(path.join(__dirname, './routes')).forEach((routeFile) => {
-  const routePath = path.join(__dirname, './routes', routeFile);
-  app.use('/api/v1', require(routePath));
-});
+//routes
+readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
 app.use('/api/auth', authRoutes);
 
-// Export the handler for serverless
-module.exports = serverless(app);
+const server = () => {
+    db()
+    app.get('/', (req, res) => {
+        res.send('API is running')
+    })
+    app.listen(PORT, () => {
+        console.log('listening to port:', PORT)
+    })
+}
+
+
+
+server()
