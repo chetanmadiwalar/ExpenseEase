@@ -7,8 +7,8 @@ const { readdirSync } = require('fs');
 const path = require('path');
 require('dotenv').config();
 
-const authRoutes = require('../routes/auth');
-const { db } = require('../db/db');
+const authRoutes = require('./routes/auth');
+const { db } = require('./db/db');
 
 const app = express();
 
@@ -24,8 +24,8 @@ app.use(
 );
 
 // API routes
-readdirSync(path.join(__dirname, '../routes')).forEach((routeFile) => {
-  const routePath = path.join(__dirname, '../routes', routeFile);
+readdirSync(path.join(__dirname, './routes')).forEach((routeFile) => {
+  const routePath = path.join(__dirname, './routes', routeFile);
   app.use('/api/v1', require(routePath));
 });
 app.use('/api/auth', authRoutes);
