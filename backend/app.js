@@ -16,8 +16,8 @@ app.use(cors({
 }))
 
 //routes
-readdirSync('./routes').map((route) => app.use('https://chetanexpenseease.netlify.app/api/v1', require('./routes/' + route)))
-app.use('https://chetanexpenseease.netlify.app/api/auth', authRoutes);
+readdirSync('./routes').map((route) => app.use('https://expense-ease-nine.vercel.app/api/v1', require('./routes/' + route)))
+app.use('https://expense-ease-nine.vercel.app/api/auth', authRoutes);
 
 const server = () => {
     db()
