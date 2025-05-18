@@ -1,34 +1,26 @@
-const serverless = require('serverless-http');
-const express = require('express');
+const express = require('express')
 const cors = require('cors');
-const { readdirSync } = require('fs');
-const path = require('path');
-require('dotenv').config();
-
 const authRoutes = require('./routes/auth');
 const { db } = require('./db/db');
+const {readdirSync} = require('fs')
+const app = express()
 
-const app = express();
+require('dotenv').config()
 
-// Connect to DB
-db();
+const PORT = process.env.PORT
 
-// Middlewares
-app.use(express.json());
-app.use(
-  cors({
-    origin: ["https://chetanexpenseease.netlify.app", "http://localhost:3000"],
-  })
-);
-app.use(express.urlencoded({ extended: true }));
+//middlewares
+app.use(express.json())
+app.use(cors({
+origin:["[https://chetanexpenseease.netlify.app","http://localhost:3000](https://chetanexpenseease.netlify.app%22,%22http://localhost:3000)"]
+}))
 
+db()
 
-// API routes
-const routesDir = path.join(__dirname, './routes');
-readdirSync(routesDir).forEach((routeFile) => {
-  app.use('/api/v1', require(path.join(routesDir, routeFile)));
-});
-app.use('/api/auth', authRoutes);
+//routes
+readdirSync('./routes').map((route) => app.use('[https://expense-ease-nine.vercel.app/api/v1](https://expense-ease-nine.vercel.app/api/v1)', require('./routes/' + route)))
+app.use('[https://expense-ease-nine.vercel.app/api/auth](https://expense-ease-nine.vercel.app/api/auth)', authRoutes);
+
 
 app.get('/',(req,res)=>{
     res.send({
@@ -37,7 +29,6 @@ app.get('/',(req,res)=>{
     })
 })
 
-app.listen(5000, () => {
-    console.log("Server is listening on port http://localhost:5000");
+app.listen(PORT, () => {
+console.log('listening to port:', PORT)
 })
-
