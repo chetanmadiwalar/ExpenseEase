@@ -16,7 +16,10 @@ db();
 // Middlewares
 app.use(express.json());
 app.use(cors({
-  origin: ["https://chetanexpenseease.netlify.app/", "http://localhost:3000"],
+  origin: [
+    "https://chetanexpenseease.netlify.app",
+    "http://localhost:3000"
+  ],
   credentials: true
 }));
 
