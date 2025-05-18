@@ -11,11 +11,13 @@ const PORT = process.env.PORT
 
 //middlewares
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin:["https://chetanexpenseease.netlify.app","http://localhost:3000"]
+}))
 
 //routes
-readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
-app.use('/api/auth', authRoutes);
+readdirSync('./routes').map((route) => app.use('https://chetanexpenseease.netlify.app/api/v1', require('./routes/' + route)))
+app.use('https://chetanexpenseease.netlify.app/api/auth', authRoutes);
 
 const server = () => {
     db()

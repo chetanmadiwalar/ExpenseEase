@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
+const MONGO_URL = process.env.MONGO_URL
 
 const db = async () => {
     try {
         mongoose.set('strictQuery', false)
-        await mongoose.connect('mongodb://localhost:27017/expenseTracker')
+        await mongoose.connect(MONGO_URL)
         console.log('Db Connected')
     } catch (error) {
         console.log(`${error}`);
