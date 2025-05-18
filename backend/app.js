@@ -1,34 +1,34 @@
-const express = require('express')
+// api/app.js
+
+const serverless = require('serverless-http');
+const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/auth');
-const { db } = require('./db/db');
-const {readdirSync} = require('fs')
-const app = express()
+const { readdirSync } = require('fs');
+const path = require('path');
+require('dotenv').config();
 
-require('dotenv').config()
+const authRoutes = require('../routes/auth');
+const { db } = require('../db/db');
 
-const PORT = process.env.PORT
+const app = express();
 
-//middlewares
-app.use(express.json())
-app.use(cors({
-    origin:["https://chetanexpenseease.netlify.app","http://localhost:3000"]
-}))
+// Connect to DB
+db();
 
-//routes
-readdirSync('./routes').map((route) => app.use('https://expense-ease-nine.vercel.app/api/v1', require('./routes/' + route)))
-app.use('https://expense-ease-nine.vercel.app/api/auth', authRoutes);
+// Middlewares
+app.use(express.json());
+app.use(
+  cors({
+    origin: ["https://chetanexpenseease.netlify.app", "http://localhost:3000"],
+  })
+);
 
-const server = () => {
-    db()
-    app.listen(PORT, () => {
-        console.log('listening to port:', PORT)
-    })
-}
+// API routes
+readdirSync(path.join(__dirname, '../routes')).forEach((routeFile) => {
+  const routePath = path.join(__dirname, '../routes', routeFile);
+  app.use('/api/v1', require(routePath));
+});
+app.use('/api/auth', authRoutes);
 
-module.exports = (req, res) => {
-  res.status(200).json({ message: "Hello from serverless!" });
-};
-
-
-server()
+// Export the handler for serverless
+module.exports = serverless(app);
