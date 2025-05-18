@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
             }
         );
     } catch (err) {
-        console.error(err.message);
+        console.error(err);
         res.status(500).send('Server error');
     }
 });
