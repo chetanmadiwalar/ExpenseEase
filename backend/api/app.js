@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors');
-const authRoutes = require('./routes/auth');
-const { db } = require('./db/db');
+const authRoutes = require('../routes/auth');
+const { db } = require('../db/db');
 const { readdirSync } = require('fs');
 const serverless = require('serverless-http');
 
@@ -19,7 +19,7 @@ app.use(cors({
 }));
 
 // Routes
-readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)));
+readdirSync('../routes').map((route) => app.use('/api/v1', require('../routes/' + route)));
 app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
