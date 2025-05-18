@@ -2,17 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.js",
+      "src": "api/app.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["routes/**", "db/**", "models/**"]
+        "includeFiles": [
+          "routes/**",
+          "controllers/**",
+          "db/**",
+          "models/**"
+        ]
       }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/app.js"
+      "src": "/(.*)",
+      "dest": "/api/app.js"
     }
   ]
 }
