@@ -1,7 +1,5 @@
-// api/app.js
-
-const serverless = require('serverless-http');
 const express = require('express');
+const serverless = require('serverless-http');
 const cors = require('cors');
 const { readdirSync } = require('fs');
 const path = require('path');
@@ -12,10 +10,6 @@ const { db } = require('../db/db');
 
 const app = express();
 
-// // Connect to DB
-// db();
-
-// Middlewares
 app.use(express.json());
 app.use(
   cors({
@@ -23,12 +17,21 @@ app.use(
   })
 );
 
-// API routes
 const routesDir = path.join(__dirname, '../routes');
 readdirSync(routesDir).forEach((routeFile) => {
   app.use('/api/v1', require(path.join(routesDir, routeFile)));
 });
 app.use('/api/auth', authRoutes);
 
-// Export the handler for serverless
-module.exports = serverless(app);
+let connectionPromise;
+
+module.exports.handler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  if (!connectionPromise) {
+    connectionPromise = db();
+  }
+  await connectionPromise;
+
+  return serverless(app)(event, context);
+};

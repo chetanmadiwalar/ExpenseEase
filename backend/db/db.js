@@ -3,27 +3,28 @@ require('dotenv').config();
 
 const MONGO_URL = process.env.MONGO_URL;
 
-let cached = global.mongoose;  // Use global var to cache connection in dev/hot reload
+let isConnected = false; // Track the connection status
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-async function db() {
-  if (cached.conn) {
-    return cached.conn;
+const db = async () => {
+  if (isConnected) {
+    // Use existing connection
+    console.log('Using existing DB connection');
+    return;
   }
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGO_URL, {
+  try {
+    mongoose.set('strictQuery', false);
+    await mongoose.connect(MONGO_URL, {
+      // Optional settings for compatibility and stable connection
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    }).then(mongoose => {
-      return mongoose;
     });
+    isConnected = true;
+    console.log('DB Connected');
+  } catch (error) {
+    console.error('DB connection error:', error);
+    throw error;
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
+};
 
 module.exports = { db };
