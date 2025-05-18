@@ -22,7 +22,7 @@ app.use(cors({
 // Routes
 const routesDir = path.join(__dirname, '../routes');
 readdirSync(routesDir).forEach((route) => {
-  app.use('/api', require(path.join(routesDir, route)));
+  app.use('/api/v1', require(path.join(routesDir, route)));
 });
 app.use('/api/auth', authRoutes);
 
