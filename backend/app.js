@@ -12,8 +12,8 @@ const { db } = require('./db/db');
 
 const app = express();
 
-// Connect to DB
-db();
+// // Connect to DB
+// db();
 
 // Middlewares
 app.use(express.json());
