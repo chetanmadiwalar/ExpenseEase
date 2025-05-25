@@ -1,7 +1,7 @@
 
 # 💸 ExpenseEase
 
-**ExpenseEase** is a clean and intuitive personal expense tracker built with the **MERN Stack** (MongoDB, Express.js, React.js, Node.js). It empowers users to manage their finances with ease by tracking income, expenses, setting monthly limits, and viewing insightful charts.
+**ExpenseEase** is a responsive,clean and intuitive personal expense tracker built with the **MERN Stack** (MongoDB, Express.js, React.js, Node.js). It empowers users to manage their finances with ease by tracking income, expenses, setting monthly limits, and viewing insightful charts.
 
 🟢 **[Live Website](https://chetanexpenseease.netlify.app/)**
 
